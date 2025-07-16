@@ -18,15 +18,15 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 54.81.140.202 >> ~/.ssh/known_hosts
+      shell: bash
 
-    - name: Add EC2 to known hosts
+    - name: Copy app.py to EC2
       run: |
-        ssh-keyscan -H 54.81.140.202>> ~/.ssh/known_hosts
+        scp -i ~/.ssh/id_rsa app.py ec2-user@54.81.140.202:/home/ec2-user/
+      shell: bash
 
-    - name: Copy app to EC2
+    - name: Run app.py on EC2
       run: |
-        scp app.py ec2-user@54.81.140.202:/home/ec2-user/
-
-    - name: Run script on EC2
-      run: |
-        ssh ec2-user@54.81.140.202 "python3 /home/ec2-user/app.py"
+        ssh -i ~/.ssh/id_rsa ec2-user@54.81.140.202 "python3 /home/ec2-user/app.py"
+      shell: bash
