@@ -21,12 +21,12 @@ jobs:
 
     - name: Add EC2 to known hosts
       run: |
-        ssh-keyscan -H 35.175.140.35 >> ~/.ssh/known_hosts
+        ssh-keyscan -H 54.81.140.202>> ~/.ssh/known_hosts
 
     - name: Copy app to EC2
       run: |
-        scp app.py ec2-user@35.175.140.35:/home/ec2-user/
+        scp app.py ec2-user@54.81.140.202:/home/ec2-user/
 
     - name: Run script on EC2
       run: |
-        ssh ec2-user@35.175.140.35 "python3 /home/ec2-user/app.py"
+        ssh ec2-user@54.81.140.202 "python3 /home/ec2-user/app.py"
